@@ -16,7 +16,9 @@ exports.deterministicPartitionKey = (event) => {
   }
 
   if (candidate.length > MAX_PARTITION_KEY_LENGTH) {
-    return sha3(data);
+    return sha3(candidate);
   }
   return candidate;
 };
+
+exports.sha3 = sha3;
