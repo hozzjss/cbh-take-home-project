@@ -1,4 +1,8 @@
-const { deterministicPartitionKey, sha3 } = require("./dpk");
+const {
+  deterministicPartitionKey,
+  sha3,
+  MAX_PARTITION_KEY_LENGTH,
+} = require("./dpk");
 
 describe("deterministicPartitionKey", () => {
   it("Returns the literal '0' when given no input", () => {
@@ -6,7 +10,7 @@ describe("deterministicPartitionKey", () => {
     expect(trivialKey).toBe("0");
   });
 
-  it("should return a the partitionKey passed if it doesn't exceed 256 chars and is a string", () => {
+  it(`should return a the partitionKey passed if it doesn't exceed ${MAX_PARTITION_KEY_LENGTH} chars and is a string`, () => {
     const event = { partitionKey: "123" };
     const result = deterministicPartitionKey(event);
     expect(result).toBe(event.partitionKey);
@@ -19,7 +23,7 @@ describe("deterministicPartitionKey", () => {
     expect(result).toBe(expected);
   });
 
-  it("should return a sha3-256 hash of the partitionKey if it exceeds 256 characters", () => {
+  it(`should return a sha3-256 hash of the partitionKey if it exceeds ${MAX_PARTITION_KEY_LENGTH} characters`, () => {
     const event = { partitionKey: "12356789".repeat(40) };
     const result = deterministicPartitionKey(event);
     const keyHash = sha3(event.partitionKey);

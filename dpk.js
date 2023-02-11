@@ -4,7 +4,7 @@ const TRIVIAL_PARTITION_KEY = "0";
 const MAX_PARTITION_KEY_LENGTH = 256;
 const sha3 = (data) => crypto.createHash("sha3-512").update(data).digest("hex");
 
-exports.deterministicPartitionKey = (event) => {
+const deterministicPartitionKey = (event) => {
   let candidate = TRIVIAL_PARTITION_KEY;
   if (event) {
     candidate = event.partitionKey;
@@ -21,4 +21,9 @@ exports.deterministicPartitionKey = (event) => {
   return candidate;
 };
 
-exports.sha3 = sha3;
+module.exports = {
+  deterministicPartitionKey,
+  sha3,
+  MAX_PARTITION_KEY_LENGTH,
+  TRIVIAL_PARTITION_KEY,
+};
